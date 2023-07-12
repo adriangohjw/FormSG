@@ -299,6 +299,9 @@ const _handleConnectOauthCallback: ControllerHandler<
 > = async (req, res) => {
   const { code, state } = req.query
 
+  const logMeta = {
+    action: '_handleConnectOauthCallback',
+  }
   // Step 0: Extract state parameter previously signed and stored in cookies.
   // Compare state values to ensure that no tampering has occurred.
   const { stripeState } = req.signedCookies
@@ -316,14 +319,34 @@ const _handleConnectOauthCallback: ControllerHandler<
     FormService.retrieveFullFormById(formId)
       .andThen(checkFormIsEncryptMode)
       .andThen((form) =>
-        StripeService.exchangeCodeForAccessToken(code).andThen((token) => {
-          // Step 4: Store access token in form.
-          return StripeService.linkStripeAccountToForm(form, {
-            accountId: token.stripe_user_id,
-            publishableKey: token.stripe_publishable_key,
+        StripeService.exchangeCodeForAccessToken(code)
+          .andThen((token) => {
+            // Step 4: Store access token in form.
+            return StripeService.linkStripeAccountToForm(form, {
+              accountId: token.stripe_user_id,
+              publishableKey: token.stripe_publishable_key,
+            })
           })
-        }),
+          .andThen(() => okAsync(form)),
       )
+      .map((form) => {
+        // check for whitelist
+        return ResultAsync.fromPromise(
+          stripe.accounts.retrieve(undefined, {
+            stripeAccount: form.payments_channel.target_account_id,
+          }),
+          (error) => {
+            logger.error({
+              message: 'Calling stripe.accounts.retrieve failed',
+              meta: {
+                ...logMeta,
+                error,
+              },
+            })
+            return new StripeFetchError(String(error))
+          },
+        )
+      })
       .map(() => {
         // Step 5: Redirect back to settings page.
         return res.redirect(redirectUrl)
@@ -391,6 +414,7 @@ export const getPaymentInfo: ControllerHandler<
           }
 
           const paymentIntentId = payment.paymentIntentId
+
           return ResultAsync.fromPromise(
             stripe.paymentIntents.retrieve(paymentIntentId, {
               stripeAccount,

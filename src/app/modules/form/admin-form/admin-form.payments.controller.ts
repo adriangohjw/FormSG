@@ -14,6 +14,7 @@ import {
 } from '../../../../../shared/types'
 import { paymentConfig } from '../../../config/features/payment.config'
 import { createLoggerWithLabel } from '../../../config/logger'
+import { stripe } from '../../../loaders/stripe'
 import { createReqMeta } from '../../../utils/request'
 import { getFormAfterPermissionChecks } from '../../auth/auth.service'
 import * as AuthService from '../../auth/auth.service'
@@ -442,4 +443,36 @@ export const handleGetPaymentGuideLink: ControllerHandler = async (
         return res.status(statusCode).json({ message: errorMessage })
       })
   )
+}
+
+export const handleGetAccountConnect: ControllerHandler<{}> = async (
+  req,
+  res,
+) => {
+  // const { stripeAccount } = req.params
+  // const { paymentIds } = req.body
+  // const { maxAgeHrs } = req.query
+
+  const { formId } = req.params
+  console.log({ headers: req.headers })
+
+  /**
+   * Account expires in 5mins where a new .create will be required
+   */
+  const account = await stripe.accounts.create({ type: 'standard' })
+  console.log({ account })
+
+  /**
+   * https://stripe.com/docs/api/account_links/create
+   */
+  const accountLink = await stripe.accountLinks.create({
+    account: account.id,
+    refresh_url: 'https://example.com/return',
+    return_url: 'https://example.com/return',
+    type: 'account_onboarding',
+  })
+  console.log({ accountLink })
+  return res
+    .status(StatusCodes.ACCEPTED)
+    .json({ accountLinkUrl: accountLink.url })
 }

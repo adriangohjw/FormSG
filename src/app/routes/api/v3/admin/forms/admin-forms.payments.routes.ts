@@ -2,9 +2,11 @@ import { Router } from 'express'
 
 import * as AdminPaymentsController from '../../../../../modules/form/admin-form/admin-form.payments.controller'
 
+import { FORM_ID_PARAMS } from './constants'
+
 export const AdminFormsPaymentsRouter = Router()
 
-AdminFormsPaymentsRouter.route('/:formId([a-fA-F0-9]{24})/stripe')
+AdminFormsPaymentsRouter.route(`/${FORM_ID_PARAMS}/stripe`)
   /**
    * Update the specified form stripe credentials
    * @route POST /:formId/stripe
@@ -51,7 +53,7 @@ AdminFormsPaymentsRouter.route('/:formId([a-fA-F0-9]{24})/stripe')
  * @returns 500 when database error occurs
  * @returns 502 when the connected Stripe credentials are invalid
  */
-AdminFormsPaymentsRouter.route('/:formId([a-fA-F0-9]{24})/stripe/validate').get(
+AdminFormsPaymentsRouter.route(`/${FORM_ID_PARAMS}/stripe/validate`).get(
   AdminPaymentsController.handleValidatePaymentAccount,
 )
 
@@ -69,11 +71,22 @@ AdminFormsPaymentsRouter.route('/:formId([a-fA-F0-9]{24})/stripe/validate').get(
  * @returns 500 when database error occurs
  */
 AdminFormsPaymentsRouter.put(
-  '/:formId([a-fA-F0-9]{24})/payments',
+  `/${FORM_ID_PARAMS}/payments`,
   AdminPaymentsController.handleUpdatePayments,
 )
 
 AdminFormsPaymentsRouter.get(
   '/guide/payments',
   AdminPaymentsController.handleGetPaymentGuideLink,
+)
+
+/**
+ * Validate that the connected Stripe account is able to receive payments.
+ * @route GET /:formId/stripe/connect
+ *
+ * * @security session
+ */
+AdminFormsPaymentsRouter.get(
+  `/${FORM_ID_PARAMS}/stripe/connect`,
+  AdminPaymentsController.handleGetAccountConnect,
 )

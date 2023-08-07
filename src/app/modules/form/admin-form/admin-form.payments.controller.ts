@@ -458,17 +458,20 @@ export const handleGetAccountConnect: ControllerHandler<{}> = async (
 
   /**
    * Account expires in 5mins where a new .create will be required
+   * Step 1: create account with MY platform Key
    */
   const account = await stripe.accounts.create({ type: 'standard' })
   console.log({ account })
 
   /**
    * https://stripe.com/docs/api/account_links/create
+   * Step 2: create account with MY platform Key
    */
   const accountLink = await stripe.accountLinks.create({
-    account: account.id,
-    refresh_url: 'https://example.com/return',
-    return_url: 'https://example.com/return',
+    // account: account.id,
+    account: 'acct_1NaTmbBlun1xlEj1',
+    refresh_url: 'https://go.gov.sg',
+    return_url: 'https://go.gov.sg',
     type: 'account_onboarding',
   })
   console.log({ accountLink })

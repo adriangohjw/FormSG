@@ -2,10 +2,10 @@ import { Router } from 'express'
 
 import * as AdminPaymentsController from '../../../../../modules/form/admin-form/admin-form.payments.controller'
 
-import { FORM_ID_PARAMS } from './constants'
+// import { FORM_ID_PARAMS } from './constants'
 
 export const AdminFormsPaymentsRouter = Router()
-
+const FORM_ID_PARAMS = ':formId([a-fA-F0-9]{24})'
 AdminFormsPaymentsRouter.route(`/${FORM_ID_PARAMS}/stripe`)
   /**
    * Update the specified form stripe credentials

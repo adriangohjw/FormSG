@@ -1,6 +1,6 @@
 import { Mongoose, Schema } from 'mongoose'
 
-import { Payment, PaymentStatus } from '../../../shared/types'
+import { PaymentBase, PaymentStatus } from '../../../shared/types'
 import { IPaymentModel, IPaymentSchema } from '../../types'
 
 import { ProductSchema } from './payments/productSchema'
@@ -126,7 +126,7 @@ const PaymentSchema = new Schema<IPaymentSchema, IPaymentModel>(
 
 const compilePaymentModel = (db: Mongoose): IPaymentModel => {
   PaymentSchema.statics.getByStatus = async function (
-    ...statuses: Payment['status'][]
+    ...statuses: PaymentBase['status'][]
   ): Promise<IPaymentSchema[]> {
     return this.find({ status: { $in: statuses } }).exec()
   }

@@ -13,7 +13,6 @@ import {
   FormAuthType,
   FormResponseMode,
   FormSubmissionMetadataQueryDto,
-  Payment,
   PaymentChannel,
   PaymentType,
   StorageModeSubmissionContentDto,

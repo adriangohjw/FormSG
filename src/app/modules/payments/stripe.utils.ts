@@ -7,7 +7,7 @@ import mongoose from 'mongoose'
 import { err, Ok, ok, Result } from 'neverthrow'
 import Stripe from 'stripe'
 
-import { Payment, PaymentStatus, ProductItem } from '../../../../shared/types'
+import { PaymentBase, PaymentStatus, ProductItem } from '../../../../shared/types'
 import { hasProp } from '../../../../shared/utils/has-prop'
 import {
   centsToDollars,
@@ -148,8 +148,8 @@ export const getMetadataPaymentId = (
  */
 type PaymentState = {
   // A "null" status represents an unknown state, and should be recovered from.
-  status: Payment['status'] | null
-  chargeIdLatest: Payment['chargeIdLatest']
+  status: PaymentBase['status'] | null
+  chargeIdLatest: PaymentBase['chargeIdLatest']
 }
 
 /**
@@ -250,7 +250,7 @@ const chargeStateReducer = (
 export const computePaymentState = (
   events: Stripe.Event[],
 ): Result<
-  Pick<Payment, 'status' | 'chargeIdLatest'>,
+  Pick<PaymentBase, 'status' | 'chargeIdLatest'>,
   ComputePaymentStateError
 > => {
   const logMeta = {
@@ -367,9 +367,9 @@ export const computePaymentState = (
  * the current value of the payout state from an array of payout events.
  */
 const payoutStateReducer = (
-  payout: Payment['payout'],
+  payout: PaymentBase['payout'],
   event: Stripe.DiscriminatedEvent.PayoutEvent,
-): Payment['payout'] => {
+): PaymentBase['payout'] => {
   switch (event.type) {
     case 'payout.created':
       // Once created, we know it will happen, so update the payout
@@ -394,7 +394,7 @@ const payoutStateReducer = (
  */
 export const computePayoutDetails = (
   events: Stripe.Event[],
-): Ok<Payment['payout'], never> => {
+): Ok<PaymentBase['payout'], never> => {
   const payoutEvents = events.filter(
     (event): event is Stripe.DiscriminatedEvent.PayoutEvent =>
       event.type.startsWith('payout.'),

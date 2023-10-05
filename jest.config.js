@@ -14,7 +14,7 @@ module.exports = {
     '<rootDir>/node_modules/',
     '<rootDir>/frontend',
   ],
-  collectCoverage: true,
+  // collectCoverage: true,
   collectCoverageFrom: [
     './src/**/*.{ts,js}',
     './serverless/**/*.{ts,js}',
@@ -37,4 +37,8 @@ module.exports = {
     },
   },
   setupFilesAfterEnv: ['<rootDir>/__tests__/setup/jest-setupAfterEnv.js'],
+  transform: {
+    '^__tests__/integration/helpers/express-auth\\.ts$': ['ts-jest', {}],
+    // '^.+\\.(t|j)sx?$': '@swc/jest',
+  },
 }

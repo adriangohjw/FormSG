@@ -37,7 +37,7 @@ export type PayoutMeta = {
   payoutDate: Date
 }
 
-export type Payment = {
+export type PaymentBase = {
   // Pre-payment metadata
   pendingSubmissionId: string
   formId: string
@@ -68,7 +68,7 @@ export type Payment = {
   lastModified: DateString
 }
 
-export type PaymentDto = Payment & { _id: string }
+export type PaymentDto = PaymentBase & { _id: string }
 
 export type PaymentReceiptStatusDto = {
   isReady: boolean
@@ -80,9 +80,9 @@ export type GetPaymentInfoDto = {
   publishableKey: string
   payment_intent_id: string
   submissionId: string
-  products: Payment['products']
-  amount: Payment['amount']
-  payment_fields_snapshot: Payment['payment_fields_snapshot']
+  products: PaymentBase['products']
+  amount: PaymentBase['amount']
+  payment_fields_snapshot: PaymentBase['payment_fields_snapshot']
 }
 
 export type IncompletePaymentsDto = {
@@ -96,7 +96,7 @@ export type ReconciliationEventsReportLine = {
 }
 
 export type ReconciliationReportLine = {
-  payment: Payment
+  payment: PaymentBase
   paymentIntent: Stripe.PaymentIntent
   mismatch: boolean
   canceled: boolean

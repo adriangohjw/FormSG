@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "experimental": {
+          "plugins": [
+            // ["jest_workaround", {}]
+          ]
+        }
+      }
+}

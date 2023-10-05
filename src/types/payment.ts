@@ -1,9 +1,9 @@
 import { Document, Model } from 'mongoose'
 import Stripe from 'stripe'
 
-import { Payment } from '../../shared/types/payment'
+import { PaymentBase } from '../../shared/types/payment'
 
-export interface IPaymentSchema extends Payment, Document {
+export interface IPaymentSchema extends PaymentBase, Document {
   /**
    * Additional field to store responses for sending email confirmations post-payment.
    * Will be used to store FilteredResponse[], allows for population.
@@ -21,7 +21,7 @@ export interface IPaymentModel extends Model<IPaymentSchema> {
    * @param statuses destructured list of statuses for payments to find
    * @returns list of payment documents with status corresponding to any one of the listed statuses
    */
-  getByStatus(...statuses: Payment['status'][]): Promise<IPaymentSchema[]>
+  getByStatus(...statuses: PaymentBase['status'][]): Promise<IPaymentSchema[]>
 }
 
 export interface StripePaymentMetadataDto extends Stripe.Metadata {

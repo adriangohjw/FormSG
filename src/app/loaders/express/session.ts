@@ -22,6 +22,7 @@ const sessionMiddlewares = (connection: Connection): RequestHandler[] => {
     store: MongoStore.create({
       // @ts-expect-error Property 'isConnected' is missing in type
       client: connection.getClient(),
+      autoRemove: 'interval',
     }),
   })
 

@@ -26,7 +26,7 @@ const TokenSchema = new Schema<ITokenSchema, ITokenModel>({
     default: 0,
   },
 })
-TokenSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
+// TokenSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
 
 // Statics
 /**

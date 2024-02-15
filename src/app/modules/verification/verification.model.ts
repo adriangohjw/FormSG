@@ -68,7 +68,7 @@ const compileVerificationModel = (db: Mongoose): IVerificationModel => {
 
   // Index
   // Causes transaction to expire
-  VerificationSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
+  // VerificationSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
 
   // Validator to make sure each field in a transaction has a different id
   VerificationSchema.pre<IVerificationSchema>('validate', function (next) {

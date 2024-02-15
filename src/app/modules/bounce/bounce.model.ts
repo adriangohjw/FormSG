@@ -73,7 +73,7 @@ const BounceSchema = new Schema<IBounceSchema, IBounceModel>({
     default: () => new Date(Date.now() + bounceLifeSpan),
   },
 })
-BounceSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
+// BounceSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
 
 /**
  * Create a new Bounce document from an SNS notification.

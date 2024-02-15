@@ -47,7 +47,7 @@ const AdminVerificationSchema = new Schema<
     timestamps: true,
   },
 )
-AdminVerificationSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
+// AdminVerificationSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
 
 // Statics
 /**

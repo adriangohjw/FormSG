@@ -1,12 +1,11 @@
 diff --git a/docker-compose.yml b/docker-compose.yml
-index 6e2331b7..13e0067b 100644
+index 0dd47c6ca..e46e58db2 100644
 --- a/docker-compose.yml
 +++ b/docker-compose.yml
-@@ -140,20 +140,41 @@ services:
-       - SP_RP_JWKS_ENDPOINT=http://localhost:5000/singpass/.well-known/jwks.json
+@@ -142,19 +142,43 @@ services:
        - CP_RP_JWKS_ENDPOINT=http://localhost:5000/api/v3/corppass/.well-known/jwks.json
      network_mode: 'service:backend' # reuse backend service's network stack so that it can resolve localhost:5156 to mockpass:5156
--
+ 
 +  pg:
 +    image: postgres:15.3-alpine3.18
 +    environment:
@@ -16,10 +15,11 @@ index 6e2331b7..13e0067b 100644
 +    volumes:
 +      - pgdata:/var/lib/postgresql/data
 +    ports:
-+      - "5432:5432"
++      - '5432:5432'
++
    database:
 -    image: 'bitnami/mongodb:4.4'
-+    image: ghcr.io/ferretdb/ferretdb:1.17.0 
++    image: ghcr.io/ferretdb/ferretdb:1.19.0
      container_name: 'formsg-db'
      environment:
        - MONGODB_DATABASE=formsg
@@ -36,18 +36,14 @@ index 6e2331b7..13e0067b 100644
 +      - '8080:8080'
 +    depends_on:
 +      - pg
++
 +  mongosh:
 +    image: mongo:6.0.8-jammy
 +    entrypoint: /usr/bin/tail
 +    command: ["-f", "/dev/null"]
 +    depends_on:
 +      - database
-+
++    network_mode: 'service:database'
  
    localstack:
      image: localstack/localstack:0.11.5
-@@ -194,3 +215,4 @@ services:
- volumes:
-   mongodb_data:
-     driver: local
-+  pgdata:

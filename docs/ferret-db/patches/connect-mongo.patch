@@ -1,0 +1,12 @@
+diff --git a/src/app/loaders/express/session.ts b/src/app/loaders/express/session.ts
+index 8e97981f7..37141628d 100644
+--- a/src/app/loaders/express/session.ts
++++ b/src/app/loaders/express/session.ts
+@@ -22,6 +22,7 @@ const sessionMiddlewares = (connection: Connection): RequestHandler[] => {
+     store: MongoStore.create({
+       // @ts-expect-error Property 'isConnected' is missing in type
+       client: connection.getClient(),
++      autoRemove: 'interval',
+     }),
+   })
+ 

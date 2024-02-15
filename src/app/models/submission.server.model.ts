@@ -289,24 +289,6 @@ EncryptSubmissionSchema.statics.findSingleMetadata = function (
       },
     },
     { $limit: 1 },
-    {
-      $lookup: {
-        from: 'payments',
-        localField: 'paymentId',
-        foreignField: '_id',
-        as: 'payments',
-      },
-    },
-    {
-      $project: {
-        _id: 1,
-        created: 1,
-        'payments.payout': 1,
-        'payments.completedPayment': 1,
-        'payments.amount': 1,
-        'payments.email': 1,
-      },
-    },
   ]).exec()
 
   return Promise.resolve(pageResults).then((results) => {
@@ -356,24 +338,6 @@ EncryptSubmissionSchema.statics.findAllMetadataByFormId = function (
     { $sort: { created: -1 } },
     { $skip: numToSkip },
     { $limit: pageSize },
-    {
-      $lookup: {
-        from: 'payments',
-        localField: 'paymentId',
-        foreignField: '_id',
-        as: 'payments',
-      },
-    },
-    {
-      $project: {
-        _id: 1,
-        created: 1,
-        'payments.payout': 1,
-        'payments.completedPayment': 1,
-        'payments.amount': 1,
-        'payments.email': 1,
-      },
-    },
   ]).exec()
 
   const count =

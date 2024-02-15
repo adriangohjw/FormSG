@@ -146,16 +146,15 @@ const compileUserModel = (db: Mongoose) => {
   UserSchema.statics.upsertUser = async function (
     upsertParams: Pick<IUser, 'email' | 'agency' | 'lastAccessed'>,
   ) {
-    return this.findOneAndUpdate(
-      { email: upsertParams.email },
-      { $set: upsertParams },
-      {
-        upsert: true,
-        new: true,
-        runValidators: true,
-        setDefaultsOnInsert: true,
-      },
-    ).populate({
+    const user = await this.exists({ email: upsertParams.email })
+
+    if (!user) {
+      await this.create(upsertParams)
+    }
+
+    return this.findOne({
+      email: upsertParams.email,
+    }).populate({
       path: 'agency',
       model: AGENCY_SCHEMA_ID,
     })

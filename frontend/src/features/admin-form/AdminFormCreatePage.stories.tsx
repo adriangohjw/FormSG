@@ -1,6 +1,6 @@
-import { Meta, Story } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 
-import { PaymentChannel, UserId } from '~shared/types'
+import { PaymentChannel, PaymentType, UserId } from '~shared/types'
 import {
   AdminFormDto,
   FormAuthType,
@@ -25,6 +25,7 @@ import {
   getMobileViewParameters,
   getTabletViewParameters,
   LoggedInDecorator,
+  mockDateDecorator,
   ViewedFeatureTourDecorator,
 } from '~utils/storybook'
 
@@ -66,6 +67,7 @@ export default {
     ViewedFeatureTourDecorator,
     AdminFormCreatePageDecorator,
     LoggedInDecorator,
+    mockDateDecorator,
   ],
   parameters: {
     // Required so skeleton "animation" does not hide content.
@@ -74,11 +76,12 @@ export default {
     chromatic: { pauseAnimationAtEnd: true, delay: 200 },
     layout: 'fullscreen',
     msw: buildMswRoutes(),
+    mockdate: new Date('2022-12-25T06:22:27.219Z'),
     userId: 'adminFormTestUserId',
   },
 } as Meta
 
-const Template: Story = () => <CreatePage />
+const Template: StoryFn = () => <CreatePage />
 export const DesktopEmpty = Template.bind({})
 export const DesktopAllFields = Template.bind({})
 DesktopAllFields.parameters = {
@@ -161,6 +164,7 @@ FormWithPayment.parameters = {
       publishable_key: 'pk_samplekey',
     },
     payments_field: {
+      payment_type: PaymentType.Fixed,
       enabled: true,
       amount_cents: 5000,
       description: 'Test event registration fee',

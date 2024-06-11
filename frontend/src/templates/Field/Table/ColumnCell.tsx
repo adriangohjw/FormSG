@@ -197,6 +197,7 @@ export const ColumnCell = ({
         // be shown in the individual column cells.
         isMobile ? (
           <FormErrorMessage>
+            {/* @ts-expect-error FIXME: type inference */}
             {get(errors, `${inputName}.message`)}
           </FormErrorMessage>
         ) : null

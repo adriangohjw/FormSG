@@ -7,6 +7,7 @@ import Stripe from 'stripe'
 
 import {
   DateString,
+  ErrorCode,
   ErrorDto,
   FormAuthType,
   Payment,
@@ -687,7 +688,7 @@ const _createSubmission = async ({
         return res.status(StatusCodes.BAD_REQUEST).json({
           message:
             'Your NRIC/FIN/UEN has already been used to respond to this form.',
-          hasSingleSubmissionValidationFailure: true,
+          errorCodes: [ErrorCode.respondentSingleSubmissionValidationFailure],
         })
       }
     } else {

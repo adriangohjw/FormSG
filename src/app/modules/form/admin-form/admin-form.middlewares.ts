@@ -3,6 +3,7 @@ import { celebrate, Joi, Segments } from 'celebrate'
 import {
   FormAuthType,
   FormStatus,
+  Language,
   SettingsUpdateDto,
   WebhookSettingsUpdateDto,
   WorkflowType,
@@ -57,6 +58,10 @@ export const updateSettingsValidator = celebrate({
         }),
       )
       .optional(),
+    hasMultiLang: Joi.boolean(),
+    supportedLanguages: Joi.array().items(
+      Joi.string().valid(...Object.values(Language)),
+    ),
   })
     .min(1)
     .custom((value, helpers) => verifyValidUnicodeString(value, helpers)),

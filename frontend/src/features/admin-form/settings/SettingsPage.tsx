@@ -22,6 +22,7 @@ import {
 import { FormResponseMode } from '~shared/types'
 import { isNonEmpty } from '~shared/utils/isNonEmpty'
 
+import { LanguageTranslation } from '~assets/icons/LanguageTranslation'
 import { ADMINFORM_RESULTS_SUBROUTE, ADMINFORM_ROUTE } from '~constants/routes'
 import { useDraggable } from '~hooks/useDraggable'
 
@@ -32,6 +33,7 @@ import { useAdminFormSettings } from './queries'
 import { SettingsAuthPage } from './SettingsAuthPage'
 import { SettingsEmailsPage } from './SettingsEmailsPage'
 import { SettingsGeneralPage } from './SettingsGeneralPage'
+import { SettingsMultiLangPage } from './SettingsMultiLangPage'
 import { SettingsPaymentsPage } from './SettingsPaymentsPage'
 import { SettingsTwilioPage } from './SettingsTwilioPage'
 import { SettingsWebhooksPage } from './SettingsWebhooksPage'
@@ -102,6 +104,12 @@ export const SettingsPage = (): JSX.Element => {
         icon: BiDollar,
         component: SettingsPaymentsPage,
         path: 'payments',
+      },
+      {
+        label: 'Multi-language',
+        icon: LanguageTranslation,
+        component: SettingsMultiLangPage,
+        path: 'multi-language',
       },
     ]
 

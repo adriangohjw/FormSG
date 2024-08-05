@@ -1,7 +1,7 @@
 const PUBLIC_FORM_FIELDS = <const>[
   'admin',
   'authType',
-  'isNricMaskEnabled',
+  'isSubmitterIdCollectionEnabled',
   'isSingleSubmission',
   'endPage',
   'esrvcId',
@@ -31,7 +31,7 @@ export const MULTIRESPONDENT_PUBLIC_FORM_FIELDS = <const>[
 const FORM_SETTINGS_FIELDS = <const>[
   'responseMode',
   'authType',
-  'isNricMaskEnabled',
+  'isSubmitterIdCollectionEnabled',
   'isSingleSubmission',
   'esrvcId',
   'hasCaptcha',

@@ -150,8 +150,8 @@ export const PublicFormProvider = ({
     /* enabled= */ !submissionData,
   )
 
-  // Mask Nric if isNricMaskEnabled is true
-  if (data?.form.isNricMaskEnabled && data.spcpSession?.userName) {
+  // Mask Nric if isSubmitterIdCollectionEnabled is true
+  if (data?.form.isSubmitterIdCollectionEnabled && data.spcpSession?.userName) {
     data.spcpSession.userName = maskNric(data.spcpSession.userName)
   }
 

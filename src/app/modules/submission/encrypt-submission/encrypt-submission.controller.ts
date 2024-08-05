@@ -265,7 +265,7 @@ const submitEncryptModeForm = async (
   // Mask if Nric masking is enabled
   if (
     userName &&
-    form.isNricMaskEnabled &&
+    form.isSubmitterIdCollectionEnabled &&
     (form.authType === FormAuthType.SP ||
       form.authType === FormAuthType.CP ||
       form.authType === FormAuthType.SGID ||
